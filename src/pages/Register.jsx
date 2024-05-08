@@ -39,6 +39,7 @@ const Register = () => {
   const handleRegister = async () => {
     try {
       const res = await axios.post(BK_URL+"/api/auth/register",sendData)
+      toast.success("Registered Successfully! Please LogIn")
       navigate("/login")
     } catch (error) {
       if (error.response && error.response.status === 400) {

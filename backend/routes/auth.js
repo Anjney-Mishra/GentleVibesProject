@@ -44,7 +44,8 @@ router.post("/login",async(req,res)=>{
             country:user.country,
             state:user.state,
             city:user.city,
-            level:user.level
+            level:user.level,
+            testgiven:user.testgiven
         },process.env.SECRET,{expiresIn:"3d"})
         const {password,...info}=user._doc
         res.cookie("token",token,{secure:"true",sameSite:"None"}).status(200).json(info)

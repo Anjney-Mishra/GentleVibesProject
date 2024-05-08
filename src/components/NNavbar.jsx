@@ -37,7 +37,7 @@ export default function NNavbar() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <Link to="/" className="font-bold text-2xl text-inherit">{user?user.username:"Hello"}</Link>
+          <Link to="/" className="font-bold text-2xl text-inherit">Gentle Vibes</Link>
         </NavbarBrand>
       </NavbarContent>
 
