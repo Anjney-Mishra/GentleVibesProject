@@ -1,18 +1,33 @@
 import React, { useContext } from "react";
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button} from "@nextui-org/react";
-import {Link} from 'react-router-dom'
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from "@nextui-org/react";
+import {Link, useNavigate} from 'react-router-dom'
 import ThemeSwitch from "./ThemeSwitch";
+import { UserContext } from "../context/UserContext";
+import axios from "axios";
+import { BK_URL } from "../constants/constants";
+import toast from "react-hot-toast";
+import { FaRegUserCircle } from "react-icons/fa";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 export default function NNavbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const {user,setUser} = useContext(UserContext)
+  const navigate = useNavigate()
 
-  const menuItems = [
-    "Profile",
-    "Feature",
-    "Customers",
-    "Integrations",
-    "Log Out",
-  ];
+
+  const handleLogout = async() => {
+    try {
+      const res = await axios.get(BK_URL+"/api/auth/logout",{withCredentials:true})
+      toast.success("Logged Out Successfully")
+      setUser(null)
+      navigate("/login")
+    } catch (error) {
+      console.log(error)
+      toast.error("Something Went Wrong")
+    }
+
+  }
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -22,7 +37,7 @@ export default function NNavbar() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <Link to="/" className="font-bold text-2xl text-inherit">GentleVibes</Link>
+          <Link to="/" className="font-bold text-2xl text-inherit">{user?user.username:"Hello"}</Link>
         </NavbarBrand>
       </NavbarContent>
 
@@ -44,7 +59,29 @@ export default function NNavbar() {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
+        {
+          user ? 
+          <NavbarItem className="lg:flex">
+<Dropdown>
+      <DropdownTrigger>
+        <Button 
+          variant="light"
+          size="lg"
+          color="success" 
+        >
+          <FaRegUserCircle/>{user.username}<IoMdArrowDropdown/>
+        </Button>
+      </DropdownTrigger>
+      <DropdownMenu aria-label="Static Actions">
+        <DropdownItem key="new">Profile</DropdownItem>
+        <DropdownItem key="delete" onClick={handleLogout} className="text-danger" color="danger">
+          Logout
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+          </NavbarItem> :
+          <>
+        <NavbarItem className="lg:flex">
         <Button as={Link} to="/login" color="primary" variant="flat">
             Login
           </Button>
@@ -54,25 +91,22 @@ export default function NNavbar() {
             Register
           </Button>
         </NavbarItem>
+          </>
+        }
         <NavbarItem>
           <ThemeSwitch/>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                 index === menuItems.length - 1 ? "danger" : "foreground"
-              }
-              className="w-full"
-              href="#"
-              size="lg"
-            >
-              {item}
-            </Link>
-          </NavbarMenuItem>
-        ))}
+        <NavbarMenuItem>
+          <Link>Meditation</Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link>Profile</Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link>Logout</Link>
+        </NavbarMenuItem>
       </NavbarMenu>
     </Navbar>
   );
