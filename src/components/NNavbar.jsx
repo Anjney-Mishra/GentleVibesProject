@@ -54,7 +54,7 @@ export default function NNavbar() {
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="#" to="/login">
-            Integrations
+            Contribute
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -62,23 +62,23 @@ export default function NNavbar() {
         {
           user ? 
           <NavbarItem className="lg:flex">
-<Dropdown>
-      <DropdownTrigger>
-        <Button 
-          variant="light"
-          size="lg"
-          color="success" 
-        >
-          <FaRegUserCircle/>{user.username}<IoMdArrowDropdown/>
-        </Button>
-      </DropdownTrigger>
-      <DropdownMenu aria-label="Static Actions">
-        <DropdownItem key="new">Profile</DropdownItem>
-        <DropdownItem key="delete" onClick={handleLogout} className="text-danger" color="danger">
-          Logout
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+      <Dropdown>
+            <DropdownTrigger>
+              <Button 
+                variant="light"
+                size="lg"
+                color="success" 
+              >
+                <FaRegUserCircle/>{user.username}<IoMdArrowDropdown/>
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Static Actions">
+              <DropdownItem key="new">Profile</DropdownItem>
+              <DropdownItem key="delete" onClick={handleLogout} className="text-danger" color="danger">
+                Logout
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
           </NavbarItem> :
           <>
         <NavbarItem className="lg:flex">

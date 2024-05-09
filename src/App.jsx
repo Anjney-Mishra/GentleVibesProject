@@ -8,6 +8,9 @@ import Motivation from './pages/Motivation'
 import { Toaster } from 'react-hot-toast'
 import { UserContextProvider } from './context/UserContext'
 import Test from './pages/Test'
+import ProtectedRoutes from './utils/ProtectedRoutes'
+import ContributorLogin from './pages/ContributerLogin'
+import ContributorRegister from './pages/ContributerRegister'
 
 function App() {
   const [darkTheme, setDarkTheme] = useState(false)
@@ -20,8 +23,12 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route element={<ProtectedRoutes/>}>
         <Route path="/motivation" element={<Motivation/>}/>
+        </Route>
         <Route path="/test" element={<Test/>}/>
+        <Route path="/contributorlogin" element={<ContributorLogin/>}/>
+        <Route path="/contributorregister" element={<ContributorRegister/>}/>
       </Routes>
       </UserContextProvider>
       <Toaster/>
